@@ -20,10 +20,11 @@ async function processData(promise){
 }
 
 button.addEventListener('click', ()=>{
-    const returned = processData(loadWeatherData('Ethiopia'))
+    const location = document.querySelector('#location').value
+    const returned = processData(loadWeatherData(location))
 
     returned.then((data)=>{
-        console.log(data)
+        console.log(data.address)
     })
 
 })
