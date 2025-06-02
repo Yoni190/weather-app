@@ -1,5 +1,7 @@
 const apiKey = "9KRBVXZCNGBUSEQLWL2SA9HTW"
 const button = document.querySelector('button')
+const form = document.querySelector('form');
+
 
 async function loadWeatherData(location){
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${apiKey}`
@@ -23,8 +25,18 @@ button.addEventListener('click', ()=>{
     const location = document.querySelector('#location').value
     const returned = processData(loadWeatherData(location))
 
+    const labels = document.querySelectorAll('h2')
+    let index = 1
+
     returned.then((data)=>{
-        console.log(data.address)
+        ["address", "temp", "description"].forEach((key)=>{
+            const p = document.createElement('p')
+            p.innerHTML = data[key]
+            form.insertBefore(p, labels[index])
+            labels[index].removeAttribute('hidden')
+            index++
+        })
+        labels[0].removeAttribute('hidden')
     })
 
 })
