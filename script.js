@@ -27,6 +27,8 @@ button.addEventListener('click', ()=>{
         location.setCustomValidity("Enter a location")
         form.reportValidity()
     } else {
+        button.disabled = true
+
         const returned = processData(loadWeatherData(location.value))
 
         const labels = document.querySelectorAll('h2')
@@ -50,6 +52,7 @@ button.addEventListener('click', ()=>{
                 index++
             })
             labels[0].removeAttribute('hidden')
+            button.disabled = false
         })
     }
 })
