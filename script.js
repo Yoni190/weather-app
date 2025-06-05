@@ -22,22 +22,39 @@ async function processData(promise){
 }
 
 button.addEventListener('click', ()=>{
-    const location = document.querySelector('#location').value
-    const returned = processData(loadWeatherData(location))
+    const location = document.querySelector('#location')
+    if(location.value == ''){
+        location.setCustomValidity("Enter a location")
+        form.reportValidity()
+    } else {
+        const returned = processData(loadWeatherData(location.value))
 
-    const labels = document.querySelectorAll('h2')
-    let index = 1
+        const labels = document.querySelectorAll('h2')
+        let index = 1
 
-    returned.then((data)=>{
-        ["address", "temp", "description"].forEach((key)=>{
-            const p = document.createElement('p')
-            p.innerHTML = data[key]
-            form.insertBefore(p, labels[index])
-            labels[index].removeAttribute('hidden')
-            index++
+        if(form.contains(document.querySelector('.info'))){
+            const infos = document.querySelectorAll('.info')
+            infos.forEach((info)=>{
+                form.removeChild(info)
+            })
+        }
+
+        returned.then((data)=>{
+            ["address", "temp", "description"].forEach((key)=>{
+                const p = document.createElement('p')
+                p.className = 'info'
+                
+                p.innerHTML = data[key]
+                form.insertBefore(p, labels[index])
+                labels[index].removeAttribute('hidden')
+                index++
+            })
+            labels[0].removeAttribute('hidden')
         })
-        labels[0].removeAttribute('hidden')
-    })
-
+    }
 })
+
+
+
+
 
